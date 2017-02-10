@@ -38,6 +38,7 @@ public class BezierActivity extends AppCompatActivity {
     private boolean mResetFlag;
     private float startX;
     private float startY;
+    View waveView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +59,10 @@ public class BezierActivity extends AppCompatActivity {
         });
         mFabContainer = (FrameLayout) findViewById(R.id.fab_container);
         mControlsContainer = (LinearLayout) findViewById(R.id.media_controls_container);
+        waveView = findViewById(R.id.wawe);
+        AnimatorPath mPath = new AnimatorPath();
+        mPath.moveTo(0, 0);
+        mPath.curveTo(-200, 200, -400, 100, -600, 0);
     }
 
     public void onFabPressed(View view) {

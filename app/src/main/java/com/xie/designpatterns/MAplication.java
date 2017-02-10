@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
-import com.xie.designpatterns.logger.Logger;
 
 /**
  * des:
@@ -21,7 +20,6 @@ public class MAplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        Logger.init(TAG);
         application=this;
         mainTid = android.os.Process.myTid();
         handler=new Handler();

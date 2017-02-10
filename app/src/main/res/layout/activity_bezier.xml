@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/album_cover"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:src="@drawable/timg" />
 
@@ -47,8 +47,14 @@
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
+    <View
+        android:id="@+id/wawe"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/black" />
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true">
