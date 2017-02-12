@@ -109,8 +109,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             View child = parent.getChildAt(i);
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
             //最后的 ViewCompat.getTranslationY(child) 是为了防止recycleview做动画。属性动画
-            int left = (child.getRight() + params.rightMargin + Math.round(ViewCompat.getTranslationX(child)));
-            int right = top + mDivider.getIntrinsicHeight();
+            int left = child.getRight() + params.rightMargin + Math.round(ViewCompat.getTranslationX(child));
+            int right = left + mDivider.getIntrinsicHeight();
             mDivider.setBounds(left, top, right, bottom);
             mDivider.draw(c);
         }

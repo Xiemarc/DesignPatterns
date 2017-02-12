@@ -38,11 +38,11 @@ public class RecycleActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.hori_recyclerview);
         adapter = new MyRecyclerAdapter(list);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-//        decor = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
-//        recyclerView.addItemDecoration(decor);
+        decor = new DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL);
+        recyclerView.addItemDecoration(decor);
     }
 
     public void addItem(View v) {
