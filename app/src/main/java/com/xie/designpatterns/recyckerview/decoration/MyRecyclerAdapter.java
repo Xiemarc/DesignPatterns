@@ -1,4 +1,4 @@
-package com.xie.designpatterns.recyckerview;
+package com.xie.designpatterns.recyckerview.decoration;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

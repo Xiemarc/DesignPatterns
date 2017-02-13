@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.xie.designpatterns.R;
+import com.xie.designpatterns.recyckerview.decoration.DividerGridViewItemDecoration;
+import com.xie.designpatterns.recyckerview.decoration.MyRecyclerAdapter;
 
 import java.util.ArrayList;
 
@@ -26,6 +28,7 @@ public class RecycleActivity extends AppCompatActivity {
     private MyRecyclerAdapter adapter;
     private RecyclerView.ItemDecoration decor;
     boolean isGrid = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +42,15 @@ public class RecycleActivity extends AppCompatActivity {
         adapter = new MyRecyclerAdapter(list);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+//        recyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        decor = new DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL);
+//        decor = new DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL);
+        decor = new DividerGridViewItemDecoration(this);
         recyclerView.addItemDecoration(decor);
     }
 
     public void addItem(View v) {
-        adapter.addData(3);
+        adapter.addData(0);
     }
 }

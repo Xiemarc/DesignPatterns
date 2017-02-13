@@ -1,4 +1,4 @@
-package com.xie.designpatterns.recyckerview;
+package com.xie.designpatterns.recyckerview.decoration;
 
 import android.content.Context;
 import android.content.res.TypedArray;
