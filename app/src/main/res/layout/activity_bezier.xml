@@ -12,6 +12,23 @@
         android:scaleType="centerCrop"
         android:src="@drawable/timg" />
 
+    <!--<FrameLayout-->
+    <!--android:layout_marginTop="-30dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:layout_below="@id/album_cover"-->
+    <!--&gt;-->
+
+    <com.xie.designpatterns.wave.WaveView
+        android:id="@+id/wave1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/album_cover"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-40dp"
+        android:background="@android:color/transparent" />
+    <!--</FrameLayout>-->
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"

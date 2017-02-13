@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.xie.designpatterns.R;
+import com.xie.designpatterns.wave.WaveAnimatorHelper;
+import com.xie.designpatterns.wave.WaveView;
 
 /**
  * des:
@@ -38,7 +41,9 @@ public class BezierActivity extends AppCompatActivity {
     private boolean mResetFlag;
     private float startX;
     private float startY;
-    View waveView;
+    private WaveView waveView;
+    private int mBorderColor = Color.parseColor("#44FFFFFF");
+    private int mBorderWidth = 10;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,10 +64,13 @@ public class BezierActivity extends AppCompatActivity {
         });
         mFabContainer = (FrameLayout) findViewById(R.id.fab_container);
         mControlsContainer = (LinearLayout) findViewById(R.id.media_controls_container);
-        waveView = findViewById(R.id.wawe);
-        AnimatorPath mPath = new AnimatorPath();
-        mPath.moveTo(0, 0);
-        mPath.curveTo(-200, 200, -400, 100, -600, 0);
+        waveView = (WaveView) findViewById(R.id.wave1);
+        waveView.setShowWave(true);
+        waveView.setWaveColor(
+                Color.parseColor("#28f16d7a"),
+                Color.parseColor("#3cf16d7a"));
+        waveView.setShapeType(WaveView.ShapeType.SQUARE);
+        WaveAnimatorHelper.startAnimatorWithAnimatorSet(0.0f, 0.4f, 0f, 1f, 0.0001f, 0.2f, waveView, 1000);
     }
 
     public void onFabPressed(View view) {

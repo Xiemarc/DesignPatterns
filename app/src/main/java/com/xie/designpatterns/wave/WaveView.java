@@ -118,11 +118,13 @@ public class WaveView extends View {
     //*************属性结束**************//
 
     public WaveView(Context context) {
-        this(context, null);
+        super(context);
+        init();
     }
 
     public WaveView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+        init();
     }
 
     public WaveView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -210,9 +212,10 @@ public class WaveView extends View {
                     mDefaultWaterLevel);//中心点y
             //再做平移,这里注意下，是postTranslate ，不是setTranslate.是因为需要后乘
             mShaderMatrix.postTranslate(mWaveShiftRatio * getWidth(),//在x轴移动的量
-                    //在y轴移动的量,
-                    //y轴上使用正数进行平移将向下移动图像，而使用负数将向上移动图像。
-                    (DEFAULT_WATER_LEVEL_RATIO - mWaterLevelRatio) * getHeight());
+                 (DEFAULT_WATER_LEVEL_RATIO - mWaterLevelRatio) * getHeight());   //在y轴移动的量,
+                                                                             //y轴上使用正数进行平移将向下移动图像，而使用负数将向上移动图像。
+            mWaveShader.setLocalMatrix(mShaderMatrix);
+
             //自定义控件的边框宽度
             float borderWidth = mBorderPaint == null ? 0f : mBorderPaint.getStrokeWidth();
             switch (mShapeType) {
