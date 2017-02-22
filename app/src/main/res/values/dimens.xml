@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_size">56dp</dimen>
     <dimen name="framelayout_bottom_size">27dp</dimen>
+    <dimen name="sheet_height">300dp</dimen>
+    <dimen name="arc_max_height">20dp</dimen>
 </resources>
