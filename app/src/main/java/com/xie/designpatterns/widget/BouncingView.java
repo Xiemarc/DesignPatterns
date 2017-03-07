@@ -70,7 +70,6 @@ public class BouncingView extends View {
             case STATUS_DOWN://往下走
                 currentPointY = mMaxArcHeight;
                 break;
-
         }
         mPath.reset();
         //先落笔到左上角
@@ -101,7 +100,7 @@ public class BouncingView extends View {
         //不短的控制mArcHeight的高度
         mStatus = Status.STATUS_SMOOTH_UP;
         ValueAnimator valueAnimator = ValueAnimator.ofInt(0, mMaxArcHeight);
-        valueAnimator.setDuration(500);
+        valueAnimator.setDuration(800);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -125,7 +124,7 @@ public class BouncingView extends View {
     private void bounce() {
         mStatus = Status.STATUS_DOWN;
         ValueAnimator valueAnimator = ValueAnimator.ofInt(mMaxArcHeight, 0);
-        valueAnimator.setDuration(500);
+        valueAnimator.setDuration(800);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {

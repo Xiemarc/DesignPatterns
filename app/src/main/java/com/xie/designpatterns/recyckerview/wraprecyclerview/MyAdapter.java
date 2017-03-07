@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.xie.designpatterns.R;
+import com.xie.designpatterns.recyckerview.decoration.MyRecyclerAdapter;
 
 import java.util.List;
 
@@ -33,8 +34,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.tv.setText(list.get(position));
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(v, position);
+                }
+            });
+        }
     }
 
     @Override
@@ -52,5 +61,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             tv = (TextView) view.findViewById(R.id.tv);
         }
 
+    }
+
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    private MyRecyclerAdapter.OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(MyRecyclerAdapter.OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
     }
 }

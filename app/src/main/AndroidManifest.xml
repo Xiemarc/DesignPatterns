@@ -13,14 +13,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".widget.BounchingActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".service.MyIntentService"/>
+        <service android:name=".service.MyIntentService" />
 
+        <activity android:name=".bezier.BezierActivity" />
+        <activity android:name=".wave.WaveActivity" />
+        <activity android:name=".widget.BounchingActivity" />
+        <activity android:name=".recyckerview.itemtouchhelper.ItemTouchActivity" />
     </application>
 </manifest>

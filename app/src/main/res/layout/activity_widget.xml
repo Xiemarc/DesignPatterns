@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/rl"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff8b90af"
+    android:background="@android:color/holo_blue_bright"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
         <LinearLayout
-            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <ImageView
@@ -57,4 +58,12 @@
                 android:src="@mipmap/ic_launcher" />
         </LinearLayout>
     </ScrollView>
+    <android.support.v7.widget.SearchView
+        android:queryHint="123213"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:color/white"/>
 </RelativeLayout>

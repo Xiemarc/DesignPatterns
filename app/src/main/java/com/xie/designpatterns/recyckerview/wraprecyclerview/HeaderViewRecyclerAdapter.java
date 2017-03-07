@@ -74,7 +74,7 @@ public class HeaderViewRecyclerAdapter extends Adapter {
 
         //Headers布局
         if (viewType == RecyclerView.INVALID_TYPE) {
-            return new HeaderViewHolder(mHeaderViewInfos.get(0));
+                return new HeaderViewHolder(mHeaderViewInfos.get(0));
         } else if (viewType == RecyclerView.INVALID_TYPE - 1) {
             //footers布局
             return new HeaderViewHolder(mFooterViewInfos.get(0));

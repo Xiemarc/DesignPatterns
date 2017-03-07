@@ -5,8 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.xie.designpatterns.R;
+import com.xie.designpatterns.recyckerview.decoration.MyRecyclerAdapter;
+
+import java.util.Arrays;
 
 /**
  * des:
@@ -19,6 +24,7 @@ public class BounchingActivity extends AppCompatActivity {
 
     boolean isOpen = false;
     private BouncingMenu bouncingMenu;
+    private String[] mTitles;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,8 +48,19 @@ public class BounchingActivity extends AppCompatActivity {
                 bouncingMenu = null;
                 return true;
             }
-            RcyclerAdapter adapter = new RcyclerAdapter(getBaseContext());
+            mTitles = getResources().getStringArray(R.array.titles);
+            MyRecyclerAdapter adapter = new MyRecyclerAdapter(Arrays.asList(mTitles));
             bouncingMenu = BouncingMenu.makeMenu(findViewById(R.id.rl), R.layout.layout_rv_sweet, adapter).show();
+            adapter.setOnItemClickListener(new MyRecyclerAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    Toast.makeText(BounchingActivity.this, "position"+position, Toast.LENGTH_SHORT).show();
+                    if (bouncingMenu != null) {
+                        bouncingMenu.dissmiss();
+                        bouncingMenu = null;
+                    }
+                }
+            });
             return true;
         }
         return super.onOptionsItemSelected(item);

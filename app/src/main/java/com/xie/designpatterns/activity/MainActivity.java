@@ -4,45 +4,72 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.Button;
 
 import com.xie.designpatterns.R;
-import com.xie.designpatterns.chapter1.ImageLoader;
-import com.xie.designpatterns.service.MyIntentService;
+import com.xie.designpatterns.bezier.BezierActivity;
+import com.xie.designpatterns.recyckerview.itemtouchhelper.ItemTouchActivity;
+import com.xie.designpatterns.wave.WaveActivity;
+import com.xie.designpatterns.widget.BounchingActivity;
 
-public class MainActivity extends AppCompatActivity {
-    String url = "http://192.168.1.106:8080/tomcat-power.gif";
-    ImageLoader loader;
-    ImageView mImageView;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    Button btn1,btn2,btn3,btn4,btn5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loader = new ImageLoader();
-//        loader.userDiskCache(true);
-        mImageView = (ImageView) findViewById(R.id.image);
-        ListView listView = new ListView(this);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                //滚动状态发生变化
-                
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //滚动时
-            }
-        });
+        btn1 = (Button) findViewById(R.id.btn1);
+        btn2 = (Button) findViewById(R.id.btn2);
+        btn3 = (Button) findViewById(R.id.btn3);
+        btn4 = (Button) findViewById(R.id.btn4);
+        btn5 = (Button) findViewById(R.id.btn5);
+        btn1.setOnClickListener(this);
+        btn2.setOnClickListener(this);
+//        btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
+        btn5.setOnClickListener(this);
     }
 
-    public void showImage(View view) {
-//        loader.displayImage(url, mImageView);
-        Intent intent = new Intent(this, MyIntentService.class);
-        intent.putExtra("start", "MyIntentService");
-        startService(intent);
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        Intent intent = new Intent();
+        switch (id) {
+            case R.id.btn1:
+                intent.setClass(MainActivity.this, BounchingActivity.class);
+                break;
+
+            case R.id.btn2:
+                intent.setClass(MainActivity.this, BezierActivity.class);
+                break;
+
+            case R.id.btn3:
+//                intent.setClass(MainActivity.this, WrapActivity.class);
+                break;
+            case R.id.btn4:
+                intent.setClass(MainActivity.this, WaveActivity.class);
+                break;
+            case R.id.btn5:
+                intent.setClass(MainActivity.this, ItemTouchActivity.class);
+                break;
+        }
+        startActivity(intent);
     }
 }

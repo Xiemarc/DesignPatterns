@@ -17,7 +17,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
 import com.xie.designpatterns.R;
-import com.xie.designpatterns.logger.Logger;
 
 /**
  * des:弹出视图
@@ -48,7 +47,6 @@ public class BouncingMenu {
         //渲染
         rootView = LayoutInflater.from(view.getContext()).inflate(resId, null, false);
         //拿到高度,然后把rootview的高度设置为0
-        Logger.i("视图的跟布局是" + rootView);
         boucingView = (BouncingView) rootView.findViewById(R.id.sv);
         boucingView.setAnimationListener(new MyAnimationListener());
         recycleView = (RecyclerView) rootView.findViewById(R.id.rv);
@@ -95,11 +93,7 @@ public class BouncingMenu {
             mParentViewGroup.removeView(rootView);
         }
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-//        params.gravity = Gravity.CENTER;
-//        params.width = (int) (screenWidht * 0.8);
         rootView.setLayoutParams(params);
-//        int shape_corner_up = R.drawable.shape_corner_up;
-//        rootView.setBackgroundResource(shape_corner_up);
         mParentViewGroup.addView(rootView);
         boucingView.show();
         return this;
@@ -111,7 +105,7 @@ public class BouncingMenu {
     public void dissmiss() {
         //属性动画实现消失
         ObjectAnimator animator = ObjectAnimator.ofFloat(rootView, "translationY", 0, rootView.getHeight());
-        animator.setDuration(600);
+        animator.setDuration(1000);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -123,6 +117,7 @@ public class BouncingMenu {
         });
         animator.start();
     }
+
 
     private class MyAnimationListener implements BouncingView.AnimationListener {
         @Override
@@ -140,4 +135,5 @@ public class BouncingMenu {
         screenWidht = wm.getDefaultDisplay().getWidth();
         screenHeight = wm.getDefaultDisplay().getHeight();
     }
+
 }
