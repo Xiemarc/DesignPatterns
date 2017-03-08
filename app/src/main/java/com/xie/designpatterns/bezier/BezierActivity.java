@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,10 +16,9 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.xie.designpatterns.R;
-import com.xie.designpatterns.wave.WaveAnimatorHelper;
-import com.xie.designpatterns.wave.WaveView;
 
 /**
  * des:
@@ -41,9 +39,6 @@ public class BezierActivity extends AppCompatActivity {
     private boolean mResetFlag;
     private float startX;
     private float startY;
-    private WaveView waveView;
-    private int mBorderColor = Color.parseColor("#44FFFFFF");
-    private int mBorderWidth = 10;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,21 +51,8 @@ public class BezierActivity extends AppCompatActivity {
 
     private void bindViews() {
         mFab = (ImageButton) findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFabPressed(v);
-            }
-        });
         mFabContainer = (FrameLayout) findViewById(R.id.fab_container);
         mControlsContainer = (LinearLayout) findViewById(R.id.media_controls_container);
-        waveView = (WaveView) findViewById(R.id.wave1);
-        waveView.setShowWave(true);
-        waveView.setWaveColor(
-                Color.parseColor("#28f16d7a"),
-                Color.parseColor("#3cf16d7a"));
-        waveView.setShapeType(WaveView.ShapeType.SQUARE);
-        WaveAnimatorHelper.startAnimatorWithAnimatorSet(0.0f, 0.4f, 0f, 1f, 0.0001f, 0.2f, waveView, 1000);
     }
 
     public void onFabPressed(View view) {
@@ -87,10 +69,7 @@ public class BezierActivity extends AppCompatActivity {
         //填this是控制当前对象（当前是BezierActivity）的PathPoint p 这个属性 。 mPath.getPoints()是相当于从某个值到某个值
         ObjectAnimator animator = ObjectAnimator.ofObject(this, "fabLocation", new PathEvaluator(), mPath.getPoints().toArray());
         animator.setDuration(ANIMATION_DUARTION);
-        //设置加速
         animator.start();
-
-
         //水波纹效果
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -145,11 +124,11 @@ public class BezierActivity extends AppCompatActivity {
         public void onAnimationEnd(Animator animation) {
             mFab.setVisibility(View.INVISIBLE);
             mFabContainer.setBackgroundColor(getResources().getColor(R.color.brand_accent));
-            for (int i = 0; i < mFabContainer.getChildCount(); i++) {
+            for (int i = 0; i < mControlsContainer.getChildCount(); i++) {
                 View v = mControlsContainer.getChildAt(i);
-                ViewPropertyAnimator animator = v.animate().scaleX(1).scaleY(1).setDuration(ANIMATION_DUARTION);
+                ViewPropertyAnimator animator2 = v.animate().scaleX(1).scaleY(1).setDuration(ANIMATION_DUARTION);
                 //依次显示
-                animator.setStartDelay(i * 50).start();
+                animator2.setStartDelay(i * 50).start();
             }
         }
 
@@ -164,18 +143,18 @@ public class BezierActivity extends AppCompatActivity {
      */
     public void reset(View view) {
         //1.先隐藏
-        for (int i = 0; i < mFabContainer.getChildCount() + 1; i++) {
+        for (int i = 0; i < mControlsContainer.getChildCount(); i++) {
             View v = mControlsContainer.getChildAt(i);
             ViewPropertyAnimator animator = v.animate().scaleX(0).scaleY(0).setDuration(ANIMATION_DUARTION);
             //依次显示
             animator.setStartDelay(i * 50);
             //最后一个动画的时候监听动画结束 ，开始显示fab。然后进行缩放
-            if (i == mControlsContainer.getChildCount() - 1) {
-                animator.setListener(reverseListener);
-            }
-            animator.start();
+//            if (i == mControlsContainer.getChildCount() - 1) {
+//            }
         }
-
+//        ViewPropertyAnimator viewPropertyAnimator = mControlsContainer.animate().alpha(0).setDuration(ANIMATION_DUARTION);
+//        viewPropertyAnimator.setListener(reverseListener);
+//        viewPropertyAnimator.start();
         AnimatorPath mPath1 = new AnimatorPath();
         mPath1.moveTo(-600, 0);
         mPath1.lineTo(0, 0);
@@ -183,6 +162,7 @@ public class BezierActivity extends AppCompatActivity {
         //填this是控制当前对象（当前是BezierActivity）的PathPoint p 这个属性 。 mPath.getPoints()是相当于从某个值到某个值
         ObjectAnimator fabLocation = ObjectAnimator.ofObject(this, "fabLocation", new PathEvaluator(), mPath1.getPoints().toArray());
         fabLocation.setDuration(ANIMATION_DUARTION);
+        fabLocation.addListener(reverseListener);
         //设置加速
         fabLocation.start();
 
@@ -194,6 +174,7 @@ public class BezierActivity extends AppCompatActivity {
      * 2.结束的时候fab显示。然后进行缩放
      */
     private AnimatorListenerAdapter reverseListener = new AnimatorListenerAdapter() {
+
         @Override
         public void onAnimationEnd(Animator animation) {
             //结束的时候背景显示成透明
@@ -227,4 +208,8 @@ public class BezierActivity extends AppCompatActivity {
             }
         }
     };
+
+    public void showtoast(View v) {
+        Toast.makeText(this, "123", Toast.LENGTH_SHORT).show();
+    }
 }
