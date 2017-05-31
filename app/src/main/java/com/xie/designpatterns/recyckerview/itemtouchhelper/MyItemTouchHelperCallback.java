@@ -105,30 +105,30 @@ public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState,
                             boolean isCurrentlyActive) {
-        //dX:水平方向移动的增量（负：往左；正：往右）范围：0~View.getWidth  0~1
-        float alpha = 1 - Math.abs(dX) / viewHolder.itemView.getWidth();
-        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            //透明度动画
-            viewHolder.itemView.setAlpha(alpha);//1~0
-//            viewHolder.itemView.setScaleX(alpha);//1~0
-//            viewHolder.itemView.setScaleY(alpha);//1~0
-        }
-
-        //条目划出后直接还原
-        if (alpha == 0) {
-            viewHolder.itemView.setAlpha(1);//1~0
-            viewHolder.itemView.setScaleX(1);//1~0
-            viewHolder.itemView.setScaleY(1);//1~0
-        }
-        //往左边滑动添加限定值,是否超出或者达到width的一半，就让其translation一直是一半
-        if (Math.abs(dX) <= viewHolder.itemView.getWidth() / 2) {
-            viewHolder.itemView.setTranslationX(-0.5f * viewHolder.itemView.getWidth());
-        }else {
-            viewHolder.itemView.setTranslationX(dX);
-        }
-        //此super方法会自动处理setTranslationX
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState,
-                isCurrentlyActive);
+//        //dX:水平方向移动的增量（负：往左；正：往右）范围：0~View.getWidth  0~1
+//        float alpha = 1 - Math.abs(dX) / viewHolder.itemView.getWidth();
+//        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+//            //透明度动画
+//            viewHolder.itemView.setAlpha(alpha);//1~0
+////            viewHolder.itemView.setScaleX(alpha);//1~0
+////            viewHolder.itemView.setScaleY(alpha);//1~0
+//        }
+//
+//        //条目划出后直接还原
+//        if (alpha == 0) {
+//            viewHolder.itemView.setAlpha(1);//1~0
+//            viewHolder.itemView.setScaleX(1);//1~0
+//            viewHolder.itemView.setScaleY(1);//1~0
+//        }
+//        //往左边滑动添加限定值,是否超出或者达到width的一半，就让其translation一直是一半
+//        if (Math.abs(dX) <= viewHolder.itemView.getWidth() / 2) {
+//            viewHolder.itemView.setTranslationX(-0.5f * viewHolder.itemView.getWidth());
+//        }else {
+//            viewHolder.itemView.setTranslationX(dX);
+//        }
+//        //此super方法会自动处理setTranslationX
+//        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState,
+//                isCurrentlyActive);
     }
 
 }

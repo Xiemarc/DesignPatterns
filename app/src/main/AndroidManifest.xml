@@ -11,20 +11,39 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".service.MyIntentService" />
 
         <activity android:name=".bezier.BezierActivity" />
         <activity android:name=".wave.WaveActivity" />
         <activity android:name=".widget.BounchingActivity" />
         <activity android:name=".recyckerview.itemtouchhelper.ItemTouchActivity" />
+        <activity android:name=".app.ExceptionActivity" />
+        <activity android:name=".loadtaost.LoadToastActivity" />
+        <activity android:name=".parallax.SplashActivity" />
+        <activity android:name=".pricetag.PriceTagActivity" />
+
+        <receiver android:name=".app.StartAppReceiver" />
+
+        <activity android:name=".palette.PaletteActivity" />
+        <activity android:name=".translucentscrollivew.TranslucentActivity" />
+        <activity android:name=".snakerbar.SnakeBarActivity" />
+        <activity android:name=".fb.FabActivity" />
+        <activity android:name=".cardview.CardViewActivity" />
+        <activity android:name=".fb.BehaviorActivity" />
+        <activity android:name=".parallel.ParalleActivity" />
+        <activity android:name=".behavior.CustomeBehaviorActivity" />
+        <activity android:name=".buffer.BufferActivity" />
+        <activity android:name=".chinamap.ChinaMapActivity" />
+        <activity android:name=".shader.MyGradientActivity"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
     </application>
 </manifest>

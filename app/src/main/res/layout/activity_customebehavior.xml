@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        app:layout_behavior="com.xie.designpatterns.behavior.SyncScrollBehavior">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="180dp"
+                android:layout_gravity="left|top"
+                android:background="#ff0"
+                android:text="被观察--dependent" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

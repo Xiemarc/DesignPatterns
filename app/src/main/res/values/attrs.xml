@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="a_in" format="float" />
+    <attr name="a_out" format="float" />
+    <attr name="x_in" format="float" />
+    <attr name="x_out" format="float" />
+    <attr name="y_in" format="float" />
+    <attr name="y_out" format="float" />
+
+    <declare-styleable name="slidingpricebar">
+        <attr name="price_u" format="integer"></attr>
+        <attr name="price_d" format="integer"></attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="didiview">
+        <attr name="circlestrokewidth" format="dimension" ></attr>
+    </declare-styleable>
+</resources>

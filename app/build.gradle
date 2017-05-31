@@ -1,31 +1,118 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
 
+def getDate() {
+    def date = new Date();
+    def formattedDate = date.format('yyyyMMddHHmm')
+    return formattedDate
+}
+
+def verCode = 1
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.1'
-    defaultConfig {
-        applicationId "com.xie.designpatterns"
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
+
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    signingConfigs {
+        release  {
+            keyAlias 'marc'
+            keyPassword 'yingTAO09  '
+            storeFile file('../designpattern.jks')
+            storePassword 'yingTAO09'
         }
     }
-}
 
-dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:recyclerview-v7:25.1.1'
+
+    defaultConfig {
+        applicationId "com.xie.designpatterns"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode verCode
+        versionName APP_VERSION
+        resValue("string", 'app_version', APP_VERSION)
+        multiDexEnabled true
+//        signingConfig signingConfigs.signingConfig
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        vectorDrawables.useSupportLibrary = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "2g"
+    }
+
+    //渠道Flavors，我这里写了一些常用的
+    productFlavors {
+        xiaomi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
+        }
+        wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
+        }
+    }
+    allprojects {
+        repositories {
+            mavenCentral()
+            maven { url "https://jitpack.io" }
+        }
+    }
+    //修改生成的apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def newName
+            def timeNow
+            def oldFile = output.outputFile
+            def outDirectory = oldFile.parent
+            if ("true".equals(IS_JENKINS)) {
+                timeNow = BUILD_TIME
+                outDirectory = BUILD_PATH_JENKINS
+                newName = 'AutoBuildTest-v' + APP_VERSION + '-' + variant.productFlavors[0].name + '-' + variant.buildType.name + '.apk'
+            } else {
+                timeNow = getDate()
+                outDirectory = BUILD_PATH_LOCAL
+                newName = APPNAME+"-v"+APP_VERSION + '-' + variant.productFlavors[0].name + '-' + variant.buildType.name + '.apk'
+            }
+            output.outputFile = new File(outDirectory+"/"+timeNow, newName)
+        }
+
+    }
+
+    dependencies {
+        compile fileTree(include: ['*.jar'], dir: 'libs')
+        androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+            exclude group: 'com.android.support', module: 'support-annotations'
+        })
+        compile 'com.android.support:appcompat-v7:25.1.1'
+        testCompile 'junit:junit:4.12'
+        compile 'com.android.support:recyclerview-v7:25.1.1'
+        compile 'com.nineoldandroids:library:2.4.0'
+        compile 'com.android.support:palette-v7:25.1.1'
+        compile 'com.android.support:design:25.1.1'
+        compile 'com.android.support:cardview-v7:25.1.1'
+        compile 'com.github.hotchemi:permissionsdispatcher:2.3.1'
+        annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.1'
+        compile 'com.zhy:percent-support-extends:1.1.1'
+        compile "io.reactivex:rxandroid:1.2.0"
+        compile "io.reactivex:rxjava: 1.1.5"
+        provided 'javax.annotation:jsr250-api:1.0'
+    }
 }

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.xie.designpatterns.utils.logger.Logger;
+
 
 /**
  * des:
@@ -12,24 +14,29 @@ import android.os.Handler;
  * email：aliali_ha@yeah.net
  */
 
-public class MAplication extends Application{
+public class MAplication extends Application {
     private static MAplication application;
     private static int mainTid;
     private static Handler handler;
     private static final String TAG = "marc";
+
     @Override
     public void onCreate() {
         super.onCreate();
-        application=this;
+        application = this;
         mainTid = android.os.Process.myTid();
-        handler=new Handler();
+        handler = new Handler();
+        Logger.init(TAG);
     }
+
     public static Context getApplication() {
         return application;
     }
+
     public static int getMainTid() {
         return mainTid;
     }
+
     public static Handler getHandler() {
         return handler;
     }

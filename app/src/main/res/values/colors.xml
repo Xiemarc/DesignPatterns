@@ -5,4 +5,14 @@
     <color name="colorAccent">#FF4081</color>
     <color name="ripple">#7DD2C4</color>
     <color name="brand_accent">#7DD2C4</color>
+
+    <color name="color_accent">#7c4dff</color>
+    <color name="color_success">#3CCD88</color>
+    <color name="color_error">#f44336</color>
+    <color name="base_shallow_black">#818181</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="bg1_green">#6DB345</color>
+    <color name="bg2_blue">#6DB3ff</color>
+    <color name="bg3_green">#6DB311</color>
 </resources>

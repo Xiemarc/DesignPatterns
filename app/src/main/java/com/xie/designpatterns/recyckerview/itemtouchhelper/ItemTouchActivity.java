@@ -23,9 +23,6 @@ import static com.xie.designpatterns.R.id.recyclerView;
  */
 
 public class ItemTouchActivity extends AppCompatActivity implements StartDragListener{
-
-
-
     private WrapRecyclerView mRecyclerView;
     private RecyclerView.ItemDecoration decor;
     private ItemTouchHelper itemTouchHelper;
