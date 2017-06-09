@@ -23,7 +23,8 @@ public class SyncScrollBehavior extends CoordinatorLayout.Behavior<View> {
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child,
                                        View directTargetChild, View target, int nestedScrollAxes) {
-        return (nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL) || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
+        return (nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL) ||
+                super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
     }
 
     @Override

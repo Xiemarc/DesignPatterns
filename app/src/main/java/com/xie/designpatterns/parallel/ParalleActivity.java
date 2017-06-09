@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.xie.designpatterns.R;
 
-public class    ParalleActivity extends AppCompatActivity {
+public class ParalleActivity extends AppCompatActivity {
 
     private ViewPager vp;
     private int[] layoutIds = {

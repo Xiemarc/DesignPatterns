@@ -14,6 +14,7 @@ import com.xie.designpatterns.cardview.CardViewActivity;
 import com.xie.designpatterns.chinamap.ChinaMapActivity;
 import com.xie.designpatterns.fb.BehaviorActivity;
 import com.xie.designpatterns.fb.FabActivity;
+import com.xie.designpatterns.reveal.RevealActivity;
 import com.xie.designpatterns.loadtaost.LoadToastActivity;
 import com.xie.designpatterns.palette.PaletteActivity;
 import com.xie.designpatterns.parallel.ParalleActivity;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         mData.add("测试双缓冲");
         mData.add("中国地图自定义view");
         mData.add("shader实现地图扫描");
+        mData.add("Reveal");
         MainAdapter adaper = new MainAdapter(mData);
         mRecyclerView.setAdapter(adaper);
         adaper.setOnItemClickListener((view,position)->{
@@ -121,6 +123,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 17:
                     intent.setClass(MainActivity.this,MyGradientActivity.class);
+                    break;
+                case 18:
+                    intent.setClass(MainActivity.this, RevealActivity.class);
+                    break;
             }
             startActivity(intent);
         });

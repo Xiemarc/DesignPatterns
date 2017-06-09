@@ -47,7 +47,7 @@ public class MyGradientView extends View {
     }
 
     public MyGradientView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     @Override
@@ -57,14 +57,15 @@ public class MyGradientView extends View {
         for (int i = 0; i < pots.length; i++) {
             canvas.drawCircle(mWidth / 2, mHeight / 2, mWidth * pots[i], mPaintCircle);
         }
-         //画布的旋转变换 需要调用save() 和 restore()
-        canvas.save();
+        //画布的旋转变换 需要调用save() 和 restore()
+        //这里保存画布需要画那个扫描的扇形
+//        canvas.save();
         scanShader = new SweepGradient(mWidth / 2, mHeight / 2,
                 new int[]{Color.TRANSPARENT, Color.parseColor("#84B5CA")}, null);
         mPaintRadar.setShader(scanShader); // 设置着色器
         canvas.concat(matrix);
         canvas.drawCircle(mWidth / 2, mHeight / 2, mWidth * pots[4], mPaintRadar);
-        canvas.restore();
+//        canvas.restore();
     }
 
     @Override
@@ -75,6 +76,7 @@ public class MyGradientView extends View {
         mHeight = getMeasuredHeight();
         mWidth = mHeight = Math.min(mWidth, mHeight);
     }
+
 
     private Runnable run = new Runnable() {
         @Override

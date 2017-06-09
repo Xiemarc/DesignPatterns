@@ -1,13 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
-
 def getDate() {
     def date = new Date();
     def formattedDate = date.format('yyyyMMddHHmm')
     return formattedDate
 }
-
 def verCode = 1
 android {
     compileSdkVersion 25
@@ -18,7 +16,7 @@ android {
         useNewCruncher = false
     }
     signingConfigs {
-        release  {
+        release {
             keyAlias 'marc'
             keyPassword 'yingTAO09  '
             storeFile file('../designpattern.jks')
@@ -52,7 +50,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.release
         }
     }
 
@@ -69,32 +66,32 @@ android {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
         }
     }
-    allprojects {
-        repositories {
-            mavenCentral()
-            maven { url "https://jitpack.io" }
-        }
-    }
-    //修改生成的apk名字
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def newName
-            def timeNow
-            def oldFile = output.outputFile
-            def outDirectory = oldFile.parent
-            if ("true".equals(IS_JENKINS)) {
-                timeNow = BUILD_TIME
-                outDirectory = BUILD_PATH_JENKINS
-                newName = 'AutoBuildTest-v' + APP_VERSION + '-' + variant.productFlavors[0].name + '-' + variant.buildType.name + '.apk'
-            } else {
-                timeNow = getDate()
-                outDirectory = BUILD_PATH_LOCAL
-                newName = APPNAME+"-v"+APP_VERSION + '-' + variant.productFlavors[0].name + '-' + variant.buildType.name + '.apk'
-            }
-            output.outputFile = new File(outDirectory+"/"+timeNow, newName)
-        }
+//    allprojects {
+//        repositories {
+//            mavenCentral()
+//            maven { url "https://jitpack.io" }
+//        }
+//    }
+//    //修改生成的apk名字
+//    applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            def newName
+//            def timeNow
+//            def oldFile = output.outputFile
+//            def outDirectory = oldFile.parent
+//            if ("true".equals(IS_JENKINS)) {
+//                timeNow = BUILD_TIME
+//                outDirectory = BUILD_PATH_JENKINS
+//                newName = 'AutoBuildTest-v' + APP_VERSION + '-' + variant.productFlavors[0].name + '-' + variant.buildType.name + '.apk'
+//            } else {
+//                timeNow = getDate()
+//                outDirectory = BUILD_PATH_LOCAL
+//                newName = APPNAME+"-v"+APP_VERSION + '-' + variant.productFlavors[0].name + '-' + variant.buildType.name + '.apk'
+//            }
+//            output.outputFile = new File(outDirectory+"/"+timeNow, newName)
+//        }
 
-    }
+//    }
 
     dependencies {
         compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -115,4 +112,7 @@ android {
         compile "io.reactivex:rxjava: 1.1.5"
         provided 'javax.annotation:jsr250-api:1.0'
     }
+}
+dependencies {
+    compile files('libs/logdbhelper.jar')
 }

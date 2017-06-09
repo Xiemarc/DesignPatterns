@@ -13,7 +13,6 @@ import com.xie.designpatterns.utils.logger.Logger;
 /**
  * 监听viewapger滑动时的变换
  * 方法设置在viewpasger身上，在页面滑动过程中，都会回调该方法transformPage
- * Created by marc on 2017/4/20.
  */
 public class WelcompagerTransformer implements ViewPager.PageTransformer, ViewPager.OnPageChangeListener {
 
