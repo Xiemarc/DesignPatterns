@@ -31,8 +31,8 @@ public class MySearchView extends View {
 
     public void setController(BaseController controller) {
         this.mController = controller;
+        mController.setSearchView(this);
         invalidate();
-
     }
 
     @Override

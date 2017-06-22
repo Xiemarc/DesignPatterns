@@ -47,6 +47,8 @@
         <activity android:name=".chinamap.ChinaMapActivity" />
         <activity android:name=".shader.MyGradientActivity"/>
         <activity android:name=".reveal.RevealActivity"/>
+        <activity android:name=".searchview.MySearchViewActivity"/>
+        <activity android:name=".design.besiz.WaveActivity"/>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />

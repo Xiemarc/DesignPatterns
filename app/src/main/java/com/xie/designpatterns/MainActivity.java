@@ -22,6 +22,7 @@ import com.xie.designpatterns.recyckerview.decoration.DividerItemDecoration;
 import com.xie.designpatterns.recyckerview.itemtouchhelper.ItemTouchActivity;
 import com.xie.designpatterns.recyckerview.wraprecyclerview.WrapActivity;
 import com.xie.designpatterns.recyckerview.wraprecyclerview.WrapRecyclerView;
+import com.xie.designpatterns.searchview.MySearchViewActivity;
 import com.xie.designpatterns.shader.MyGradientActivity;
 import com.xie.designpatterns.snakerbar.SnakeBarActivity;
 import com.xie.designpatterns.translucentscrollivew.TranslucentActivity;
@@ -64,9 +65,11 @@ public class MainActivity extends AppCompatActivity {
         mData.add("中国地图自定义view");
         mData.add("shader实现地图扫描");
         mData.add("Reveal");
+        mData.add("MySearchView");
+        mData.add("waveView");
         MainAdapter adaper = new MainAdapter(mData);
         mRecyclerView.setAdapter(adaper);
-        adaper.setOnItemClickListener((view,position)->{
+        adaper.setOnItemClickListener((view, position) -> {
 
             Intent intent = new Intent();
             switch (position) {
@@ -122,10 +125,16 @@ public class MainActivity extends AppCompatActivity {
                     intent.setClass(MainActivity.this, ChinaMapActivity.class);
                     break;
                 case 17:
-                    intent.setClass(MainActivity.this,MyGradientActivity.class);
+                    intent.setClass(MainActivity.this, MyGradientActivity.class);
                     break;
                 case 18:
                     intent.setClass(MainActivity.this, RevealActivity.class);
+                    break;
+                case 19:
+                    intent.setClass(MainActivity.this, MySearchViewActivity.class);
+                    break;
+                case 20:
+                    intent.setClass(MainActivity.this, com.xie.designpatterns.design.besiz.WaveActivity.class);
                     break;
             }
             startActivity(intent);

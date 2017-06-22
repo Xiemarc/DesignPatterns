@@ -66,7 +66,6 @@ public class WaveActivity extends AppCompatActivity {
         //匀速线性差值器
         waveShiftAnim.setInterpolator(new LinearInterpolator());
         animators.add(waveShiftAnim);
-
 //        改变水位比例
         waterLevelAnim = ObjectAnimator.ofFloat(
                 mWaveView, "waterLevelRatio", 0f, 1.0f);
