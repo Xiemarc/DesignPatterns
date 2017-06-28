@@ -14,6 +14,7 @@ import com.xie.designpatterns.cardview.CardViewActivity;
 import com.xie.designpatterns.chinamap.ChinaMapActivity;
 import com.xie.designpatterns.fb.BehaviorActivity;
 import com.xie.designpatterns.fb.FabActivity;
+import com.xie.designpatterns.mdload.MdLoadActivity;
 import com.xie.designpatterns.reveal.RevealActivity;
 import com.xie.designpatterns.loadtaost.LoadToastActivity;
 import com.xie.designpatterns.palette.PaletteActivity;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         mData.add("Reveal");
         mData.add("MySearchView");
         mData.add("waveView");
+        mData.add("Material Design超炫加载过渡特效");
         MainAdapter adaper = new MainAdapter(mData);
         mRecyclerView.setAdapter(adaper);
         adaper.setOnItemClickListener((view, position) -> {
@@ -135,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 20:
                     intent.setClass(MainActivity.this, com.xie.designpatterns.design.besiz.WaveActivity.class);
+                    break;
+                case 21:
+                    intent.setClass(MainActivity.this, MdLoadActivity.class);
                     break;
             }
             startActivity(intent);
