@@ -15,6 +15,7 @@ import com.xie.designpatterns.chinamap.ChinaMapActivity;
 import com.xie.designpatterns.fb.BehaviorActivity;
 import com.xie.designpatterns.fb.FabActivity;
 import com.xie.designpatterns.mdload.MdLoadActivity;
+import com.xie.designpatterns.miui.activity.MiUiActivity;
 import com.xie.designpatterns.reveal.RevealActivity;
 import com.xie.designpatterns.loadtaost.LoadToastActivity;
 import com.xie.designpatterns.palette.PaletteActivity;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         mData.add("MySearchView");
         mData.add("waveView");
         mData.add("Material Design超炫加载过渡特效");
+        mData.add("仿miui文本框弹一下的效果 ");
         MainAdapter adaper = new MainAdapter(mData);
         mRecyclerView.setAdapter(adaper);
         adaper.setOnItemClickListener((view, position) -> {
@@ -140,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 21:
                     intent.setClass(MainActivity.this, MdLoadActivity.class);
+                    break;
+                case 22:
+                    intent.setClass(MainActivity.this, MiUiActivity.class);
                     break;
             }
             startActivity(intent);

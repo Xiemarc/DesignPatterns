@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 
@@ -103,6 +104,18 @@ public class LoadView extends View {
     }
 
     /**
+     * 获取view的中点坐标,view对角线长度的一半
+     */
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mCenterX = w / 2f;
+        mCenterY = h / 2f;
+        //屏幕对角线的一半. 勾股定理
+        mDiagonalDist = (float) (Math.sqrt(w * w + h * h) / 2f);
+    }
+
+    /**
      * 初始化
      */
     private void init(Context context) {
@@ -115,7 +128,8 @@ public class LoadView extends View {
         //设置画笔的样式：空心
         mBgPaint.setStyle(Paint.Style.STROKE);
         //设置画笔颜色
-        mBgPaint.setColor(mBgColor);
+//        mBgPaint.setColor(mBgColor);
+        mBgPaint.setColor(Color.BLACK);
         //旋转的时候大圆的半径不变，为初始化值
         mCurrentRatationRadios = mRotationRadius;
         //聚合后放大圆的初始半径为小圆半径
@@ -128,16 +142,6 @@ public class LoadView extends View {
         }
     }
 
-    /**
-     * 获取view的中点坐标,view对角线长度的一半
-     */
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        mCenterX = w / 2f;
-        mCenterY = h / 2f;
-        mDiagonalDist = (float) (Math.sqrt(w * w + h * h) / 2f);
-    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -156,44 +160,38 @@ public class LoadView extends View {
     public void splashAndDisappear() {
         //取消第一个动画
         if (mState != null && mState instanceof RotationState) {
+            //停止第一个动画
             ((RotationState) mState).cancel();
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    mState = new MergingState();
-                }
-            });
+            post(() -> mState = new MergingState());
         }
     }
 
+    private ValueAnimator animator;
+
     /**
-     * 旋转动画
+     * 第一个动画：小圆旋转动画
      */
     private class RotationState implements LoadState {
-        private ValueAnimator animator;
-
         public RotationState() {
             animator = ValueAnimator.ofFloat(0f, (float) (2 * Math.PI));
             animator.setDuration(mRotationDuration);
             //设置无限循环
             animator.setRepeatCount(ValueAnimator.INFINITE);
             //匀速旋转
-            animator.setInterpolator(new LinearInterpolator());
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    //获取大圆旋转的当前角度
-                    mCurrentRotationAngle = (float) animation.getAnimatedValue();
-                    //重绘图像
-                    invalidate();
-                }
+            animator.setInterpolator(new AccelerateDecelerateInterpolator());
+//            animator.setInterpolator(new LinearInterpolator());
+            animator.addUpdateListener(animation -> {
+                //获取大圆旋转的当前角度
+                mCurrentRotationAngle = (float) animation.getAnimatedValue();
+                //重绘图像
+                postInvalidate();
             });
             animator.start();
         }
 
         @Override
         public void drawState(Canvas canvas) {
-            clearCanvas(canvas);
+            drawBackground(canvas);
             darwCircle(canvas);
         }
 
@@ -202,6 +200,99 @@ public class LoadView extends View {
          */
         public void cancel() {
             animator.cancel();
+        }
+    }
+
+
+    /**
+     * 第二个动画：聚合动画 ,改变大圆（不显示的）的半径
+     */
+    private class MergingState implements LoadState {
+
+        public MergingState() {
+            animator = ValueAnimator.ofFloat(0f, mRotationRadius);
+            //开始有个弹射效果，输入的参数越大，弹射效果越明显
+            animator.setInterpolator(new OvershootInterpolator(6f));
+            animator.setDuration(mSplashDuration);
+            animator.addUpdateListener(animation -> {
+                //当前时间点 大圆的半径
+                mCurrentRatationRadios = (float) animation.getAnimatedValue();
+                invalidate();
+            });
+            //反转动画 ,直接反转然后start . 半径从mRotationRadius到0 执行
+            animator.reverse();
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    post(() -> mState = new CircleStae());
+                }
+            });
+        }
+
+        @Override
+        public void drawState(Canvas canvas) {
+            drawBackground(canvas);
+            darwCircle(canvas);
+        }
+    }
+
+    /**
+     * 圆缩放动画
+     */
+    private class CircleStae implements LoadState {
+        public CircleStae() {
+            animator = ValueAnimator.ofFloat(mCircleRadius, 2.5f * mCircleRadius, mCircleRadius);
+            animator.setDuration(mSplashDuration);
+            animator.setInterpolator(new LinearInterpolator());
+            animator.addUpdateListener(animation -> {
+                //当前圆的圆心
+                mScaleCircle = (float) animation.getAnimatedValue();
+                //重绘图像
+                invalidate();
+            });
+            animator.start();
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    post(() -> mState = new ExpandingStae());
+                }
+            });
+        }
+
+        @Override
+        public void drawState(Canvas canvas) {
+            //把原来的圆擦除
+            drawBackground(canvas);
+            canvas.drawCircle(mCenterX, mCenterY, mScaleCircle, mPaint);
+        }
+    }
+
+
+    /**
+     * 第三个动画：小圆水波纹扩散动画
+     */
+    private class ExpandingStae implements LoadState {
+        private ValueAnimator animator;
+
+        public ExpandingStae() {
+            animator = ValueAnimator.ofFloat(0, mDiagonalDist);
+            animator.setDuration(mSplashDuration);
+            //扩散我这边使用的是匀速，可以换成加速：AccelerateInterpolator
+            animator.setInterpolator(new LinearInterpolator());
+            animator.addUpdateListener(animation -> {
+                //获取空心圆的半径,不断的控制画笔的宽度
+                mHoleRadius = (float) animation.getAnimatedValue();
+                //重绘图像
+                invalidate();
+            });
+            animator.start();
+        }
+
+        @Override
+        public void drawState(Canvas canvas) {
+            drawBackground(canvas);
         }
     }
 
@@ -214,7 +305,7 @@ public class LoadView extends View {
         for (int i = 0; i < mCircleColors.length; i++) {
             //设置画笔颜色
             mPaint.setColor(mCircleColors[i]);
-            //小圆的x坐标
+            //小圆的x,y坐标
             float cx = (float) (mCurrentRatationRadios * Math.cos(mCurrentRotationAngle + mRotationAngle * i) + mCenterX);
             float cy = (float) (mCurrentRatationRadios * Math.sin(mCurrentRotationAngle + mRotationAngle * i) + mCenterY);
             canvas.drawCircle(cx, cy, mCircleRadius, mPaint);
@@ -226,7 +317,7 @@ public class LoadView extends View {
      *
      * @param canvas
      */
-    private void clearCanvas(Canvas canvas) {
+    private void drawBackground(Canvas canvas) {
         //如果空心圆的半径为0，则清空画布，如果mHoleRadius不为零，说明正在执行扩散动画
         if (mHoleRadius > 0f) {
             //画笔的宽度
@@ -235,120 +326,8 @@ public class LoadView extends View {
             float radius = mDiagonalDist / 2 + mHoleRadius / 2;
             canvas.drawCircle(mCenterX, mCenterY, radius, mBgPaint);
         } else {
+            //背景白色，就相当于把背景画的几个小圆擦除
             canvas.drawColor(mBgColor);
-        }
-    }
-
-
-    /**
-     * 聚合动画
-     */
-    private class MergingState implements LoadState {
-        private ValueAnimator animator;
-
-        public MergingState() {
-            animator = ValueAnimator.ofFloat(0f, mRotationRadius);
-            //开始有个弹射效果，输入的参数越大，弹射效果越明显
-            animator.setInterpolator(new OvershootInterpolator(6f));
-            animator.setDuration(mSplashDuration);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    mCurrentRatationRadios = (float) animation.getAnimatedValue();
-                    invalidate();
-                }
-            });
-            //反向计算
-            animator.reverse();
-            animator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mState = new CircleStae();
-                        }
-                    });
-                }
-            });
-        }
-
-        @Override
-        public void drawState(Canvas canvas) {
-            clearCanvas(canvas);
-            darwCircle(canvas);
-        }
-    }
-
-    /**
-     * 圆缩放动画
-     */
-    private class CircleStae implements LoadState {
-        private ValueAnimator animator;
-
-        public CircleStae() {
-            animator = ValueAnimator.ofFloat(mCircleRadius, 2.5f * mCircleRadius, mCircleRadius);
-            animator.setDuration(mSplashDuration);
-            animator.setInterpolator(new LinearInterpolator());
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    //当前圆的圆心
-                    mScaleCircle = (float) animation.getAnimatedValue();
-                    //重绘图像
-                    invalidate();
-                }
-            });
-            animator.start();
-            animator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mState = new ExpandingStae();
-                        }
-                    });
-                }
-            });
-        }
-
-        @Override
-        public void drawState(Canvas canvas) {
-            clearCanvas(canvas);
-            canvas.drawCircle(mCenterX, mCenterY, mScaleCircle, mPaint);
-        }
-    }
-
-
-    /**
-     * 扩散动画
-     */
-    private class ExpandingStae implements LoadState {
-        private ValueAnimator animator;
-
-        public ExpandingStae() {
-            animator = ValueAnimator.ofFloat(0, mDiagonalDist);
-            animator.setDuration(mSplashDuration);
-            //扩散我这边使用的是匀速，可以换成加速：AccelerateInterpolator
-            animator.setInterpolator(new LinearInterpolator());
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    //获取空心圆的半径
-                    mHoleRadius = (float) animation.getAnimatedValue();
-                    //重绘图像
-                    invalidate();
-                }
-            });
-            animator.start();
-        }
-
-        @Override
-        public void drawState(Canvas canvas) {
-            clearCanvas(canvas);
         }
     }
 }

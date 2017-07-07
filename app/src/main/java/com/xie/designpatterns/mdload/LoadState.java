@@ -7,5 +7,5 @@ import android.graphics.Canvas;
  */
 
 public interface LoadState {
-    public abstract void drawState(Canvas canvas);
+    void drawState(Canvas canvas);
 }
